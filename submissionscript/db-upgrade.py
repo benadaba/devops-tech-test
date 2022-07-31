@@ -101,3 +101,38 @@ def get_latest_version():
 
 print(f"test_version: {get_latest_version()}")
 
+
+
+def execute_db_upgrade_script():
+  #whether or not execute multi-line code
+  multiline= False
+  #get the ordered list of sql files to be executed
+  ordered_scripts_to_run = get_ordered_scripts_to_update()
+  latest_version = get_latest_version()
+  print(f"num_to_update_latest_version_to: {list(ordered_scripts_to_run.keys())[-1]}")
+  #get the number to update as the very latest version
+  num_to_update_latest_version_to =  list(ordered_scripts_to_run.keys())[-1]
+  #loop through the list of sql scripts to run to update the database
+  for k, v in ordered_scripts_to_run.items():
+    print(f"currenlty running: {k}:{v}")
+    #if script number is newer than last update version in DB then update the DB
+    if int(k) >  int(latest_version):
+      print(f"UPDATING!! file key :{k} with file value: {v}")
+      current_file = Path(f'../{DBSCRIPTS}/{v}')
+      with open(current_file, 'r') as f:
+          with db_connection.cursor() as cursor:
+              cursor.execute(f.read(), multi=multiline)
+          db_connection.commit()
+      #if the script number is the last update file to run, then update that in the versionTable
+      if int(k) == int(num_to_update_latest_version_to):
+        mycursor = db_connection.cursor()
+        mycursor.execute(f"INSERT INTO versionTable (version) VALUES ({num_to_update_latest_version_to});")
+        db_connection.commit()
+    else:
+      print(f"NOT updating this file key {k}: value: {v}")
+
+execute_db_upgrade_script()
+
+
+if __name__ == '__main__':
+   pass
