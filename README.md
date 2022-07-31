@@ -1,7 +1,7 @@
 # DevOps Tech Test
 
 ## HOW RUN THE SOLUTION SCRIPT
-01. change into the submissionscript folder
+01. change into the `submissionscript` folder
 ```
 cd submissionscript
 ```
