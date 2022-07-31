@@ -1,0 +1,1 @@
+INSERT INTO PersonTable VALUES(1);
