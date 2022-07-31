@@ -61,7 +61,7 @@ def get_ordered_scripts_to_update(scripts_folder=DBSCRIPTS):
   #order the dictionary keys in ascending order  
   ordered_updates = collections.OrderedDict(sorted(update_numbers.items()))
   return ordered_updates
-  
+
  
 db_connection = mysql.connector.connect(
   host=HOST,
@@ -87,3 +87,17 @@ def execute_seed_version_data():
 
 #run function
 execute_seed_version_data()
+
+
+def get_latest_version():
+    """
+    Get the latest update from the versionTable
+    :return version of the latest update
+    """
+    mycursor = db_connection.cursor()
+    mycursor.execute("SELECT max(version) as version FROM versionTable;")
+    resultVersion = mycursor.fetchone()
+    return resultVersion[0]
+
+print(f"test_version: {get_latest_version()}")
+
