@@ -1,5 +1,26 @@
 # DevOps Tech Test
 
+## HOW RUN THE SOLUTION SCRIPT
+01. change into the submissionscript folder
+```
+cd submissionscript
+```
+
+02. Run the `db-upgrade.py` providing the relevant arguments:
+These are the flags.    
+`-d`: directory with sql scripts   
+`-u`: username for the db db-host   
+`-ht`: hostname  
+`-db`: database name  
+`-pw`: database paswword
+
+```
+python3 db-upgrade.py -d dbscripts -u root -ht localhost -db  devopstt -pw 123456
+```
+
+-------
+## ORIGINAL ASSIGNMENT QUESTION:
+
 ## Preperation
 
 Please Clone this repository and push it up to your own github repository.
