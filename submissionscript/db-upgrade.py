@@ -1,13 +1,34 @@
 import json
 import mysql.connector
+from pathlib import Path
+import argparse
 
 
-HOST = "localhost"
-PORT = 3306
-USER = "root"
-PASSWD = ""
-DATABASE = "devopstt"
-DBSCRIPTS = "dbscripts"
+
+
+# Construct the argument parser
+parser = argparse.ArgumentParser()
+
+# Add the arguments to the parser
+parser.add_argument("-d", "--directory_with_sql_scripts", required=True, help="directory with sql scripts")
+parser.add_argument("-u", "--username_for_the_db", required=True, help="username for the db db-host")
+parser.add_argument("-ht", "--db_host", required=True, default="localhost", help="db-host")
+parser.add_argument("-db", "--db_name", required=True, default="devopstt" ,help="db name")
+parser.add_argument("-pw", "--db_password", required=True, help="db password", default=123456)
+parser.add_argument("-pt", "--port", required=False, default=3306,help="port")
+
+args = parser.parse_args()
+
+
+
+# get the passed arguments
+HOST = args.db_host
+PORT = args.port
+USER = args.username_for_the_db
+PASSWD = args.db_password
+DATABASE = args.db_name
+DBSCRIPTS = args.directory_with_sql_scripts
+
 
 
 db_connection = mysql.connector.connect(
