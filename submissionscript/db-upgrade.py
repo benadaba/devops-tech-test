@@ -2,6 +2,8 @@ import json
 import mysql.connector
 from pathlib import Path
 import argparse
+import glob
+
 
 
 
@@ -29,6 +31,13 @@ PASSWD = args.db_password
 DATABASE = args.db_name
 DBSCRIPTS = args.directory_with_sql_scripts
 
+def get_list_of_sql_files(scripts_folder=DBSCRIPTS):
+  """get list of sql files to execute
+  :param scripts_folder- folder contain sql scripts
+  :return list of sql files
+  """
+  list_of_files = glob.glob(f"../{scripts_folder}/*.sql")
+  return list_of_files
 
 
 db_connection = mysql.connector.connect(
