@@ -5,18 +5,19 @@ import argparse
 import glob
 import re
 import collections
+from contextlib import contextmanager
 
 
 # Construct the argument parser
 parser = argparse.ArgumentParser()
 
 # Add the arguments to the parser
-parser.add_argument("-d", "--directory_with_sql_scripts", required=True, help="directory with sql scripts")
-parser.add_argument("-u", "--username_for_the_db", required=True, help="username for the db db-host")
-parser.add_argument("-ht", "--db_host", required=True, default="localhost", help="db-host")
-parser.add_argument("-db", "--db_name", required=True, default="devopstt" ,help="db name")
-parser.add_argument("-pw", "--db_password", required=True, help="db password", default=123456)
-parser.add_argument("-pt", "--port", required=False, default=3306,help="port")
+parser.add_argument("directory_with_sql_scripts", nargs='?',  help="directory with sql scripts")
+parser.add_argument("username_for_the_db", nargs='?',  help="username for the db db-host")
+parser.add_argument("db_host", nargs='?', default="localhost", help="db-host")
+parser.add_argument("db_name", nargs='?',  default="devopstt" ,help="db name")
+parser.add_argument("db_password", nargs='?',  help="db password", default=123456)
+parser.add_argument("port", nargs='?',  default=3306,help="port")
 
 args = parser.parse_args()
 
