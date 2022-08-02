@@ -63,14 +63,23 @@ def get_ordered_scripts_to_update(scripts_folder=DBSCRIPTS):
   ordered_updates = collections.OrderedDict(sorted(update_numbers.items()))
   return ordered_updates
 
- 
-db_connection = mysql.connector.connect(
-  host=HOST,
-  port=PORT,
-  user=USER,
-  passwd=PASSWD,
-  database=DATABASE
-)
+
+
+ #implement database connection in a context manager
+@contextmanager
+def _connect():
+  db_connection = mysql.connector.connect(
+    host=HOST,
+    port=PORT,
+    user=USER,
+    passwd=PASSWD,
+    database=DATABASE
+  )
+  try:
+    yield db_connection
+  finally:
+    db_connection.close()
+
 
 
 def execute_seed_version_data():
