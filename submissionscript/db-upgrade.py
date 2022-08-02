@@ -129,25 +129,29 @@ def execute_db_upgrade_script():
   #get the ordered list of sql files to be executed
   ordered_scripts_to_run = get_ordered_scripts_to_update()
   latest_version = get_latest_version()
-  print(f"num_to_update_latest_version_to: {list(ordered_scripts_to_run.keys())[-1]}")
+  print(f"number to update final version to: {list(ordered_scripts_to_run.keys())[-1]}")
   #get the number to update as the very latest version
   num_to_update_latest_version_to =  list(ordered_scripts_to_run.keys())[-1]
   #loop through the list of sql scripts to run to update the database
   for k, v in ordered_scripts_to_run.items():
-    print(f"currenlty running: {k}:{v}")
+    print(f"\n\n***currenlty processing file with update number: {k} and filename:'{v}'...")
     #if script number is newer than last update version in DB then update the DB
     if int(k) >  int(latest_version):
-      print(f"UPDATING!! file key :{k} with file value: {v}")
+      print(f"UPDATING!! file key:{k} with file name:'{v}'")
       current_file = Path(f'../{DBSCRIPTS}/{v}')
       with open(current_file, 'r') as f:
-          with db_connection.cursor() as cursor:
-              cursor.execute(f.read(), multi=multiline)
-          db_connection.commit()
+         with _connect() as conn:
+            cursor = conn.cursor()
+            cursor.execute(f.read(), multi=multiline)
+         with _connect() as conn_commit:
+          conn_commit.commit()
       #if the script number is the last update file to run, then update that in the versionTable
       if int(k) == int(num_to_update_latest_version_to):
-        mycursor = db_connection.cursor()
-        mycursor.execute(f"INSERT INTO versionTable (version) VALUES ({num_to_update_latest_version_to});")
-        db_connection.commit()
+        with _connect() as conn:
+            mycursor = conn.cursor()
+            mycursor.execute(f"INSERT INTO versionTable (version) VALUES ({num_to_update_latest_version_to});")
+        with _connect() as conn_commit:
+          conn_commit.commit()
     else:
       print(f"NOT updating this file key {k}: value: {v}")
 
