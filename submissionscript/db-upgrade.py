@@ -112,12 +112,14 @@ def get_latest_version():
     Get the latest update from the versionTable
     :return version of the latest update
     """
-    mycursor = db_connection.cursor()
-    mycursor.execute("SELECT max(version) as version FROM versionTable;")
-    resultVersion = mycursor.fetchone()
+    with _connect() as conn:
+        mycursor = conn.cursor()
+        # mycursor = _connect().cursor()
+        mycursor.execute("SELECT max(version) as version FROM versionTable;")
+        resultVersion = mycursor.fetchone()
     return resultVersion[0]
 
-print(f"test_version: {get_latest_version()}")
+print(f"current seeddata test_version: {get_latest_version()}")
 
 
 
