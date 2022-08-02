@@ -90,10 +90,18 @@ def execute_seed_version_data():
   current_file = Path(f'../{DBSCRIPTS}/seed_data/seeddata.sql')
   # print(current_file)
   with open(current_file, 'r') as f:
-      with db_connection.cursor() as cursor:
+      with _connect() as conn:
+        cursor = conn.cursor()
         #set multi to True to read multiple sql statemetns from the script
-          cursor.execute(f.read(), multi=True)
-      db_connection.commit()
+        results = cursor.execute(f.read(), multi=True)
+        try:
+          for result in results:
+            result.execute(result.statement)
+        except RuntimeError:
+          pass
+      with _connect() as conn_commit:
+        conn_commit.commit()
+
 
 #run function
 execute_seed_version_data()
