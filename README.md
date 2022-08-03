@@ -1,22 +1,27 @@
 # DevOps Tech Test
 
-## HOW RUN THE SOLUTION SCRIPT
-01. change into the `submissionscript` folder
+## COMMANDS TO RUN THE SOLUTION SCRIPT LOCALLY
+01. change into the `submissionscript` directory
 ```
 cd submissionscript
 ```
 
-02. Run the `db-upgrade.py` providing the relevant arguments:
-These are the flags.    
-`-d`: directory with sql scripts   
-`-u`: username for the db db-host   
-`-ht`: hostname  
-`-db`: database name  
-`-pw`: database paswword
+02. Run the `db-upgrade.py` with the command below making sure to put `python3.8'  before the path and positional arguments
 
 ```
-python3 db-upgrade.py -d dbscripts -u root -ht localhost -db  devopstt -pw 123456
+python3.8 ./db-upgrade.your-lang directory-with-sql-scripts username-for-the-db db-host db-name db-password
 ```
+Example:
+```
+python3.8 ./db-upgrade.py dbscripts dev mysql_container  devopstt 123456
+```
+
+## COMMANDS TO RUN THE SOLUTION SCRIPT IN THE CONTAINER:
+Please use the command below:
+```
+python3 /submissionscript/<yourscript.lang> /scripts/ dev mysql_container devopstt 123456`
+```
+
 
 -------
 ## ORIGINAL ASSIGNMENT QUESTION:
