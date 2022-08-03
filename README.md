@@ -21,7 +21,10 @@ Please use the command below:
 ```
 python3 /submissionscript/<yourscript.lang> /scripts/ dev mysql_container devopstt 123456`
 ```
-
+Example:
+```
+python3 /submissionscript/db-upgrade.py   /scripts/  dev mysql_container  devopstt 123456
+```
 
 -------
 ## ORIGINAL ASSIGNMENT QUESTION:
